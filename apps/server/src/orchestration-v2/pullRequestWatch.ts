@@ -50,10 +50,11 @@ export function evaluatePullRequestWatch(
   let passed = headMoved ? false : watch.passed;
   let passedChecks = headMoved ? [] : watch.passedChecks;
   let owedChecks = headMoved ? [] : (watch.owedChecks ?? []);
-  // A new head without checks waits for them only where the host always reports some.
+  // A new head without checks waits for them only where the host always reports some. A watch with
+  // no answer yet (watched again, or saved before the field) waits only while the clock below runs.
   let checksPending = headMoved
     ? detail.capabilities.checksAlwaysReport === true
-    : (watch.checksPending ?? true);
+    : (watch.checksPending ?? watch.checksAwaitedSince != null);
   if (detail.checks.length > 0) {
     checksPending = detail.checks.some((check) => check.status === "pending");
     const failed = detail.checks.filter(isFailedCheck);
