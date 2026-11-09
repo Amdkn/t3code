@@ -36,7 +36,7 @@ import {
 } from "~/state/entities";
 import { useConnectedEnvironmentIds } from "~/state/environments";
 import { useEnvironmentSessionsSettled } from "~/state/session";
-import { formatRelativeTimeLabel } from "~/timestampFormat";
+import { compactSidebarTimeLabel, formatRelativeTimeLabel } from "~/timestampFormat";
 import { TIP_BY_ID, TIPS, type Tip, type TipAction } from "~/tips/catalog";
 import { sidebarPreviewFolders, type SidebarPreviewFolder } from "~/tips/sidebarPreview";
 import { deckStartIndex } from "~/tips/tipsState";
@@ -45,7 +45,6 @@ import { markTipOpened, markTipShown, runTipsVisit, setTipDismissed } from "~/ti
 import { settingsSearchHash } from "../settings/settingsSearch";
 import { ProjectFavicon } from "../ProjectFavicon";
 import { ProjectMonogram } from "../ProjectMonogram";
-import { compactSidebarTimeLabel } from "../sidebar/SidebarThreadRow";
 import { Button, InlineButton } from "../ui/button";
 import { toastManager } from "../ui/toast";
 import { BackgroundThreadContext } from "./backgroundThread";
