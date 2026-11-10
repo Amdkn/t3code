@@ -1,0 +1,48 @@
+{
+  "$schema": "aspace.t3code.contract.v1",
+  "adapter": {
+    "fork": "Amdkn/t3code",
+    "license": "MIT",
+    "name": "aspace-t3code-adapter",
+    "pinned_t3code_commit": "dc7270581800518b9d7d4db6c8e13852067c8c2d",
+    "pinned_t3code_version": "0.1.7",
+    "upstream": "pingdotgg/t3code",
+    "version": "0.1.0"
+  },
+  "capabilities": ["help", "version", "doctor-dry-run"],
+  "cli": {
+    "commands": {
+      "doctor": "node apps/server/dist/bin.mjs doctor --help (prints the doctor help; --dry-run needs a pre-existing database, so the smoke uses --help)",
+      "help": "node apps/server/dist/bin.mjs help",
+      "version": "node apps/server/dist/bin.mjs --version"
+    },
+    "entry": "apps/server/dist/bin.mjs (built by `pnpm --filter t3 run build:bundle`)",
+    "never": [
+      "t3 (no args \u2014 starts the server)",
+      "t3 up",
+      "t3 start",
+      "t3 serve",
+      "t3 connect",
+      "t3 update",
+      "t3 install",
+      "t3 service",
+      "t3 __service-launcher"
+    ],
+    "unknown_command_exit_code": 1
+  },
+  "server": {
+    "bind": "never started by this adapter",
+    "note": "The default `t3` command starts the WebSocket server and loads AnalyticsService; the adapter never invokes it.",
+    "state": "T3CODE_HOME scratch dir (never the live ~/.t3 userdata)"
+  },
+  "telemetry": {
+    "default": "ON \u2014 AnalyticsService (apps/server/src/telemetry/AnalyticsService.ts) sends PostHog batches to https://ingest.t3.codes with a hardcoded default key unless disabled",
+    "env_switches": {
+      "T3CODE_POSTHOG_HOST": "emptied by the adapter (defense in depth)",
+      "T3CODE_POSTHOG_KEY": "emptied by the adapter (defense in depth)",
+      "T3CODE_TELEMETRY_ENABLED": "false \u2014 forced by the adapter; gates record AND sendBatch entirely"
+    },
+    "network": "talk-only commands only (--help, --version, help, doctor --help); the server is never started, so AnalyticsService is never loaded; --help also verified inside `unshare -n` when available",
+    "sdk": "none (no posthog-js / sentry / segment / mixpanel / amplitude in any manifest); the sender is hand-rolled HTTP in AnalyticsService.ts"
+  }
+}
